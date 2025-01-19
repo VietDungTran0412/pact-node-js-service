@@ -1,5 +1,8 @@
 name: verify-consumer-contract
 
+env:
+  NODE_VERSION: 22
+
 on:
   repository_dispatch:
     types: [contract_requiring_verification_published]
@@ -12,6 +15,15 @@ jobs:
     steps:
       - name: Checkout default branch
         uses: actions/checkout@v3
-      - name: Print event
-        run: echo ${{ github.event.client_payload.pact_url }}
+      - name: Setup nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
+      - name: Print Webhook Source
+        run: echo ${{ github.event.client_payload.pact_url }}
+      - name: Install deps
+        run: npm install
+
+      - name: Verify contract
+        run: npx jest test/pact/create-user-provider.pact.test.js
