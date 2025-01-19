@@ -1,0 +1,17 @@
+name: verify-consumer-contract
+
+on:
+  repository_dispatch:
+    types: [contract_requiring_verification_published]
+
+  workflow_dispatch:
+
+jobs:
+  verify-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v3
+      - name: Print event
+        run: echo ${{ github.event.client_payload.pact_url }}
+

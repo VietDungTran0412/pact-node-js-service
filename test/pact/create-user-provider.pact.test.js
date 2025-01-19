@@ -25,7 +25,7 @@ describe('Provider Pact Verification', () => {
       providerVersion: '1.0.0', 
       publishVerificationResult: true,
       failIfNoPactsFound: true,
-      logLevel: 'debug',
+      // logLevel: 'debug',
       stateHandlers: {
         'provider allows user creation': async () => {
           console.log('Setting up provider state: provider allows user creation');

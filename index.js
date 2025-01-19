@@ -8,23 +8,37 @@ const port = 3000;
 app.use(express.json());
 app.use(cors());
 
+let users = [
+    {
+        firstname: "Dung",
+        id: 1,
+        lastname: "Tran",
+        email: "dungtran@gmail.com",
+        age: 23,
+        address: "nguyen tuan"
+    }
+]
+
 // CREATE: Add a new user
 app.post('/users', async (req, res) => {
     const { email, firstname, lastname, age, address } = req.body;
 
     try {
-        const user = await prisma.user.create({
-            data: {
-                email,
-                firstname,
-                lastname,
-                age,
-                address,
-            },
-        });
-        res.status(201).json(user);
+        // const user = await prisma.user.create({
+        //     data: {
+        //         email,
+        //         firstname,
+        //         lastname,
+        //         age,
+        //         address,
+        //     },
+        // });
+        const newUser = { id: 1, email, firstname, lastname, age, address };
+        users.push(newUser);
+    
+        res.status(201).json(newUser);
     } catch (error) {
-        res.status(500).json({ error: 'Error creating user' });
+        res.status(501).json({ error: error.message });
     }
 });
 
@@ -91,6 +105,12 @@ app.delete('/users/:id', async (req, res) => {
         res.status(500).json({ error: 'Error deleting user' });
     }
 });
+
+app.use((err, req, res, next) => {
+    console.error("🔥 Internal Server Error:", err);
+    res.status(500).json({ error: "Internal Server Error", details: err.message });
+  });
+  
 
 // app.listen(port, () => {
 //     console.log(`Server is running on http://localhost:${port}`);
