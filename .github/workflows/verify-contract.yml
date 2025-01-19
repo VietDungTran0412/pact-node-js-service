@@ -2,7 +2,7 @@ name: verify-consumer-contract
 
 on:
   repository_dispatch:
-    types: [contract_requiring_verification_published]
+    types: contract_requiring_verification_published
 
   workflow_dispatch:
 
